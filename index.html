@@ -18,7 +18,7 @@
     <h1 style="color: #15803d; margin: 10px 0;">DISCOUNT50</h1>
   </div>
   <script>
-    liff.init({ liffId: "YOUR_LIFF_ID" }).then(() => { if(!liff.isLoggedIn()) liff.login(); });
+    liff.init({ liffId: "2010962484-4cvjVADF" }).then(() => { if(!liff.isLoggedIn()) liff.login(); });
     async function shareToFriends() {
       if (!liff.isApiAvailable('shareTargetPicker')) { alert('กรุณาเปิดผ่านแอป LINE'); return; }
       const res = await liff.shareTargetPicker([{ type: "text", text: "แจกโปรโมชั่นส่วนลดพิเศษ! รีบกดรับสิทธิ์: https://lin.ee/your_oa" }]);
