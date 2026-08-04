@@ -2,41 +2,47 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>รับคูปองส่วนลด</title>
+  <title>รับส่วนลด 100 บาท</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
 <h1>🎁 รับส่วนลด 100 บาท</h1>
-<p id="status">
-เพิ่มเพื่อน LINE พรเจริญเยาวราชหนองคาย เพื่อรับคูปอง
+<p>
+แชร์โปรโมชั่นนี้ให้เพื่อน เพื่อปลดล็อกรับคูปอง
 </p>
-<button id="addFriend">
-เพิ่มเพื่อน LINE เพื่อรับคูปอง
+<button id="shareBtn">
+📲 แชร์ให้เพื่อนใน LINE
 </button>
-<h2 id="coupon" style="display:none;">
-🎉 คูปองส่วนลด 100 บาท
-</h2>
+<div id="couponArea" style="display:none;">
+<h2>🎉 แชร์สำเร็จแล้ว</h2>
+<button id="couponBtn">
+รับคูปองส่วนลด 100 บาท
+</button>
+</div>
 <script>
 const LIFF_ID = "2010962484-gr4dOb9M";
-async function main() {
-  await liff.init({
-    liffId: LIFF_ID
-  });
-  if (!liff.isLoggedIn()) {
-    liff.login();
-    return;
-  }
-  const friendship = await liff.getFriendship();
-  if (friendship.friendFlag) {
-    document.getElementById("coupon").style.display = "block";
-    document.getElementById("status").innerHTML =
-    "ขอบคุณที่เพิ่มเพื่อน พรเจริญเยาวราชหนองคายครับ";
-  }
+async function start(){
+await liff.init({
+ liffId: LIFF_ID
+});
+document.getElementById("shareBtn").onclick = async function(){
+try {
+await liff.shareTargetPicker([
+{
+ type:"text",
+ text:"🎁 โปรโมชั่นพิเศษ รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย"
 }
-document.getElementById("addFriend").onclick = function(){
-  window.location.href = "https://lin.ee/n1vpesS";
+]);
+document.getElementById("couponArea").style.display="block";
+} catch(err){
+alert("ไม่สามารถแชร์ได้");
+}
 };
-main();
+document.getElementById("couponBtn").onclick=function(){
+window.location.href="https://lin.ee/n1vpesS";
+};
+}
+start();
 </script>
 </body>
 </html>
