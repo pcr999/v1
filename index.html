@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>รับส่วนลด 100 บาท</title>
+<meta charset="UTF-8">
+<title>รับส่วนลด 100 บาท</title>
 
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body {
+  text-align:center;
+  font-family:sans-serif;
+  padding:40px;
+}
+
+button {
+  padding:15px 25px;
+  font-size:18px;
+  border-radius:10px;
+  cursor:pointer;
+}
+</style>
 
 </head>
 
@@ -13,21 +28,33 @@
 <h1>🎁 รับส่วนลด 100 บาท</h1>
 
 <p>
-แชร์โปรโมชั่นนี้ให้เพื่อน เพื่อปลดล็อกรับคูปอง
+แชร์โปรโมชั่นนี้ให้เพื่อน<br>
+เพื่อรับสิทธิ์ส่วนลด
 </p>
 
+
 <button id="shareBtn">
-📲 แชร์ให้เพื่อนใน LINE
+📲 แชร์โปรโมชั่นให้เพื่อน
 </button>
 
 
-<div id="couponArea" style="display:none;">
+<div id="afterShare" style="display:none;">
 
-<h2>🎉 แชร์สำเร็จแล้ว</h2>
+<h2>✅ แชร์สำเร็จแล้ว</h2>
 
-<button id="couponBtn">
-รับคูปองส่วนลด 100 บาท
+<p>
+กรุณาเพิ่มเพื่อน<br>
+พรเจริญเยาวราช หนองคาย<br>
+เพื่อรับคูปอง
+</p>
+
+
+<a href="https://lin.ee/n1vpesS">
+<button>
+เพิ่มเพื่อน LINE รับคูปอง
 </button>
+</a>
+
 
 </div>
 
@@ -40,7 +67,7 @@ const LIFF_ID = "2010962484-gr4dOb9M";
 async function start(){
 
 await liff.init({
- liffId: LIFF_ID
+liffId: LIFF_ID
 });
 
 
@@ -50,30 +77,24 @@ try {
 
 await liff.shareTargetPicker([
 {
- type:"text",
- text:"🎁 โปรโมชั่นพิเศษ รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย"
+type:"text",
+text:
+"🎁 รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย\nกดรับโปรโมชั่นได้ที่นี่"
 }
 ]);
 
 
-document.getElementById("couponArea").style.display="block";
+document.getElementById("afterShare").style.display="block";
 
 
-} catch(err){
+}
+catch(error){
 
-alert("ไม่สามารถแชร์ได้");
+alert("กรุณาเปิดผ่าน LINE App เพื่อแชร์โปรโมชั่น");
 
 }
 
 };
-
-
-document.getElementById("couponBtn").onclick=function(){
-
-window.location.href="https://lin.ee/n1vpesS";
-
-};
-
 
 }
 
@@ -81,6 +102,7 @@ window.location.href="https://lin.ee/n1vpesS";
 start();
 
 </script>
+
 
 </body>
 </html>
