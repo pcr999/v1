@@ -2,22 +2,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>รับส่วนลด 100 บาท</title>
+<title>รับคูปองส่วนลด</title>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
 body {
-  text-align:center;
-  font-family:sans-serif;
-  padding:40px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
 }
 
 button {
-  padding:15px 25px;
-  font-size:18px;
-  border-radius:10px;
-  cursor:pointer;
+  padding: 15px 25px;
+  font-size: 18px;
+  border-radius: 10px;
 }
 </style>
 
@@ -28,81 +27,33 @@ button {
 <h1>🎁 รับส่วนลด 100 บาท</h1>
 
 <p>
-แชร์โปรโมชั่นนี้ให้เพื่อน<br>
-เพื่อรับสิทธิ์ส่วนลด
-</p>
-
-
-<button id="shareBtn">
-📲 แชร์โปรโมชั่นให้เพื่อน
-</button>
-
-
-<div id="afterShare" style="display:none;">
-
-<h2>✅ แชร์สำเร็จแล้ว</h2>
-
-<p>
-กรุณาเพิ่มเพื่อน<br>
+เพิ่มเพื่อน LINE<br>
 พรเจริญเยาวราช หนองคาย<br>
 เพื่อรับคูปอง
 </p>
 
-
 <a href="https://lin.ee/n1vpesS">
 <button>
-เพิ่มเพื่อน LINE รับคูปอง
+เพิ่มเพื่อน LINE เพื่อรับคูปอง
 </button>
 </a>
-
-
-</div>
 
 
 <script>
 
 const LIFF_ID = "2010962484-gr4dOb9M";
 
-
-async function start(){
-
-await liff.init({
-liffId: LIFF_ID
+liff.init({
+  liffId: LIFF_ID
+})
+.then(() => {
+  console.log("LIFF เปิดสำเร็จ");
+})
+.catch((err) => {
+  console.log(err);
 });
 
-
-document.getElementById("shareBtn").onclick = async function(){
-
-try {
-
-await liff.shareTargetPicker([
-{
-type:"text",
-text:
-"🎁 รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย\nกดรับโปรโมชั่นได้ที่นี่"
-}
-]);
-
-
-document.getElementById("afterShare").style.display="block";
-
-
-}
-catch(error){
-
-alert("กรุณาเปิดผ่าน LINE App เพื่อแชร์โปรโมชั่น");
-
-}
-
-};
-
-}
-
-
-start();
-
 </script>
-
 
 </body>
 </html>
