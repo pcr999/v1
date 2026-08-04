@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Discount Coupon</title>
+</head>
+<body>
+  <h1>รับส่วนลด 100 บาท</h1>
+  <p>กดแชร์ LINE เพื่อรับคูปอง</p>
+
+  <button onclick="shareLine()">
+    แชร์ LINE
+  </button>
+
+  <h2 id="coupon" style="display:none;">
+    🎉 คูปองส่วนลด 100 บาท
+  </h2>
+
+<script>
+function shareLine() {
+  document.getElementById("coupon").style.display = "block";
+}
+</script>
+
+</body>
+</html>
