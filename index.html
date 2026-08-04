@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>รับคูปองส่วนลด</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>รับส่วนลด</title>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
@@ -14,11 +16,12 @@ body {
 }
 
 button {
-  padding: 15px 25px;
-  margin: 10px;
+  width: 80%;
+  padding: 15px;
+  margin: 15px;
   font-size: 18px;
   border-radius: 10px;
-  cursor: pointer;
+  border: none;
 }
 </style>
 
@@ -26,77 +29,79 @@ button {
 
 <body>
 
-<h1>🎁 รับส่วนลด 100 บาท</h1>
+<h1>🎁 รับส่วนลด</h1>
 
 <p>
 แชร์โปรโมชั่นให้เพื่อนก่อน<br>
 เพื่อรับคูปองส่วนลด
 </p>
 
-<button onclick="sharePromo()">
-📤 แชร์โปรโมชั่นให้เพื่อน
+<button onclick="shareFriend()">
+📤 แชร์ให้เพื่อน
 </button>
 
-<div id="coupon" style="display:none;">
+<div id="reward" style="display:none;">
 
-<h2>✅ แชร์แล้ว</h2>
+<h2>✅ ขอบคุณที่แชร์</h2>
 
-<button onclick="getCoupon()">
-🎁 รับคูปองส่วนลด
+<button onclick="getReward()">
+🎁 รับส่วนลด
 </button>
 
 </div>
 
 
-<p>
-สำหรับลูกค้าที่ยังไม่ได้เป็นเพื่อน:
-</p>
-
-<a href="https://lin.ee/n1vpesS">
-<button>
-เพิ่มเพื่อน LINE Official
-</button>
-</a>
-
-
 <script>
 
-const LIFF_ID = "2010962484-gr4dOb9M";
+const LIFF_ID = "2010962484-4cvjVADF";
+
 
 liff.init({
   liffId: LIFF_ID
 })
 .then(() => {
   console.log("LIFF Ready");
+})
+.catch((err)=>{
+  console.log(err);
 });
 
 
-function sharePromo(){
+
+function shareFriend(){
+
+  if(!liff.isApiAvailable("shareTargetPicker")){
+    alert("ไม่สามารถแชร์ได้");
+    return;
+  }
+
 
   liff.shareTargetPicker([
     {
-      type: "text",
-      text: "🎁 รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย\nกดรับโปรโมชั่นได้ที่นี่"
+      type:"text",
+      text:
+      "🎁 โปรโมชั่นรับส่วนลด\n\n"+
+      "กดรับสิทธิ์ได้ที่นี่\n"+
+      "https://liff.line.me/2010962484-4cvjVADF"
     }
   ])
-  .then(() => {
-
-    document.getElementById("coupon").style.display="block";
-
+  .then(()=>{
+      document.getElementById("reward").style.display="block";
   })
-  .catch(err=>{
-    alert("ไม่สามารถแชร์ได้");
-    console.log(err);
+  .catch((err)=>{
+      console.log(err);
   });
 
 }
 
 
-function getCoupon(){
 
- alert("ขอบคุณครับ รับคูปองส่วนลด 100 บาท");
+function getReward(){
+
+ alert("🎉 รับส่วนลดเรียบร้อยแล้ว");
 
 }
+
 
 </script>
 
