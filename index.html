@@ -1,109 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>รับส่วนลด</title>
-
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 40px;
-}
-
-button {
-  width: 80%;
-  padding: 15px;
-  margin: 15px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-}
-</style>
-
-</head>
-
+<head><script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script></head>
 <body>
-
-<h1>🎁 รับส่วนลด</h1>
-
-<p>
-แชร์โปรโมชั่นให้เพื่อนก่อน<br>
-เพื่อรับคูปองส่วนลด
-</p>
-
-<button onclick="shareFriend()">
-📤 แชร์ให้เพื่อน
-</button>
-
-<div id="reward" style="display:none;">
-
-<h2>✅ ขอบคุณที่แชร์</h2>
-
-<button onclick="getReward()">
-🎁 รับส่วนลด
-</button>
-
-</div>
-
-
-<script>
-
-const LIFF_ID = "2010962484-4cvjVADF";
-
-
-liff.init({
-  liffId: LIFF_ID
-})
-.then(() => {
-  console.log("LIFF Ready");
-})
-.catch((err)=>{
-  console.log(err);
-});
-
-
-
-function shareFriend(){
-
-  if(!liff.isApiAvailable("shareTargetPicker")){
-    alert("ไม่สามารถแชร์ได้");
-    return;
-  }
-
-
-  liff.shareTargetPicker([
-    {
-      type:"text",
-      text:
-      "🎁 โปรโมชั่นรับส่วนลด\n\n"+
-      "กดรับสิทธิ์ได้ที่นี่\n"+
-      "https://liff.line.me/2010962484-4cvjVADF"
+  <button onclick="share()">แชร์รับส่วนลด</button>
+  <script>
+    liff.init({ liffId: "YOUR_LIFF_ID" }).then(() => { if(!liff.isLoggedIn()) liff.login(); });
+    async function share() {
+      const res = await liff.shareTargetPicker([{type:"text", text:"รับส่วนลดพิเศษ! https://lin.ee/..."}]);
+      if(res) alert("ยินดีด้วย! โค้ดส่วนลด: DISCOUNT50");
     }
-  ])
-  .then(()=>{
-      document.getElementById("reward").style.display="block";
-  })
-  .catch((err)=>{
-      console.log(err);
-  });
-
-}
-
-
-
-function getReward(){
-
- alert("🎉 รับส่วนลดเรียบร้อยแล้ว");
-
-}
-
-
-</script>
-
+  </script>
 </body>
 </html>
