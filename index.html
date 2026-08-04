@@ -15,8 +15,10 @@ body {
 
 button {
   padding: 15px 25px;
+  margin: 10px;
   font-size: 18px;
   border-radius: 10px;
+  cursor: pointer;
 }
 </style>
 
@@ -27,14 +29,32 @@ button {
 <h1>🎁 รับส่วนลด 100 บาท</h1>
 
 <p>
-เพิ่มเพื่อน LINE<br>
-พรเจริญเยาวราช หนองคาย<br>
-เพื่อรับคูปอง
+แชร์โปรโมชั่นให้เพื่อนก่อน<br>
+เพื่อรับคูปองส่วนลด
+</p>
+
+<button onclick="sharePromo()">
+📤 แชร์โปรโมชั่นให้เพื่อน
+</button>
+
+<div id="coupon" style="display:none;">
+
+<h2>✅ แชร์แล้ว</h2>
+
+<button onclick="getCoupon()">
+🎁 รับคูปองส่วนลด
+</button>
+
+</div>
+
+
+<p>
+สำหรับลูกค้าที่ยังไม่ได้เป็นเพื่อน:
 </p>
 
 <a href="https://lin.ee/n1vpesS">
 <button>
-เพิ่มเพื่อน LINE เพื่อรับคูปอง
+เพิ่มเพื่อน LINE Official
 </button>
 </a>
 
@@ -47,11 +67,36 @@ liff.init({
   liffId: LIFF_ID
 })
 .then(() => {
-  console.log("LIFF เปิดสำเร็จ");
-})
-.catch((err) => {
-  console.log(err);
+  console.log("LIFF Ready");
 });
+
+
+function sharePromo(){
+
+  liff.shareTargetPicker([
+    {
+      type: "text",
+      text: "🎁 รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย\nกดรับโปรโมชั่นได้ที่นี่"
+    }
+  ])
+  .then(() => {
+
+    document.getElementById("coupon").style.display="block";
+
+  })
+  .catch(err=>{
+    alert("ไม่สามารถแชร์ได้");
+    console.log(err);
+  });
+
+}
+
+
+function getCoupon(){
+
+ alert("ขอบคุณครับ รับคูปองส่วนลด 100 บาท");
+
+}
 
 </script>
 
