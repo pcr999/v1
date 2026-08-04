@@ -21,26 +21,53 @@
             max-width: 400px;
             margin: 40px auto;
         }
-        h2 { color: #333; }
-        p { color: #666; font-size: 14px; line-height: 1.5; }
+        .profile-section {
+            margin-bottom: 20px;
+        }
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #06C755;
+            margin-bottom: 8px;
+        }
+        .profile-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        h2 { color: #333; font-size: 20px; margin-bottom: 10px; }
         
-        /* ปรับแต่งปุ่มแชร์ให้ใหญ่และโดดเด่น */
+        /* ปรับแต่งข้อความคำอธิบายให้ใหญ่และเด่นชัดขึ้น */
+        .desc-text { 
+            color: #222; 
+            font-size: 16px; /* ขยายตัวหนังสือให้ใหญ่ขึ้น */
+            font-weight: bold; /* ทำตัวหนาให้สะดุดตา */
+            line-height: 1.5; 
+            margin: 15px 0;
+            background-color: #f0fdf4; /* เพิ่มพื้นหลังสีเขียวอ่อนจางๆ ให้ดูน่าสนใจ */
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #06C755;
+        }
+        
         .btn {
             background-color: #06C755;
             color: white;
             border: none;
-            padding: 18px 20px; /* เพิ่มความสูงของปุ่ม */
-            font-size: 18px;     /* ขยายขนาดตัวอักษรให้ใหญ่ขึ้น */
+            padding: 18px 20px;
+            font-size: 18px;
             border-radius: 10px;
             cursor: pointer;
-            width: 100%;         /* ขยายเต็มความกว้างกล่อง */
-            margin-top: 20px;
+            width: 100%;
+            margin-top: 15px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(6, 199, 85, 0.3); /* เพิ่มเงาให้ปุ่มดูมีมิติ */
+            box-shadow: 0 4px 6px rgba(6, 199, 85, 0.3);
         }
         .btn:active { 
             background-color: #05b04c; 
-            transform: scale(0.98); /* เอฟเฟกต์ยุบตัวเล็กน้อยตอนกด */
+            transform: scale(0.98); 
         }
 
         .coupon-box {
@@ -70,28 +97,46 @@
 <body>
 
     <div class="container">
-        <h2>🎁 รับส่วนลดพิเศษ</h2>
-        <p id="desc">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อปลดล็อกโค้ดส่วนลดของคุณ</p>
+        <!-- แสดงรูปโปรไฟล์และชื่อของผู้ใช้งานบนเว็บ -->
+        <div class="profile-section">
+            <img id="userImage" class="profile-img" src="" alt="Profile" style="display:none;">
+            <div id="userName" class="profile-name">กำลังโหลดข้อมูล...</div>
+        </div>
+
+        <h2>🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
+        
+        <!-- ข้อความคำอธิบายที่ปรับให้ใหญ่และเด่นชัดขึ้น -->
+        <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
         
         <!-- ปุ่มแชร์ขนาดใหญ่ -->
-        <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 แชร์ให้เพื่อนเลย</button>
+        <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
 
         <!-- ส่วนแสดงโค้ดส่วนลด (ซ่อนไว้ก่อนจนกว่าจะแชร์สำเร็จ) -->
         <div id="couponSection" class="coupon-box">
             <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
             <p>โค้ดส่วนลดของคุณคือ:</p>
-            <div class="code-text">DISCOUNT100</div>
+            <div class="code-text">GOLD100</div>
             <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดกับทางร้าน (ใช้ได้ภายใน 1 เดือนนับจากวันที่แชร์)</p>
+            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง (ใช้ได้ภายใน 1 เดือน)</p>
         </div>
     </div>
 
     <script>
+        let userName = "คุณลูกค้า";
+
         async function main() {
             try {
                 await liff.init({ liffId: "2010962484-4cvjVADF" }); // LIFF ID ของคุณ
                 if (!liff.isLoggedIn()) {
                     liff.login();
+                } else {
+                    const profile = await liff.getProfile();
+                    userName = profile.displayName;
+                    
+                    document.getElementById("userName").innerText = userName;
+                    const userImg = document.getElementById("userImage");
+                    userImg.src = profile.pictureUrl;
+                    userImg.style.display = "inline-block";
                 }
             } catch (error) {
                 console.error("LIFF Init failed", error);
@@ -109,7 +154,7 @@
                 const result = await liff.shareTargetPicker([
                     {
                         type: "text",
-                        text: "🎁 แจกโปรโมชั่นส่วนลดพิเศษ! รีบกดรับสิทธิ์ก่อนหมดเขต: https://lin.ee/your_oa"
+                        text: แกกก ฉันเพิ่งไปกดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคายมา คุ้มมาก ลองกดรับสิทธิ์ดูนะ 👉 https://lin.ee/n1vpesS
                     }
                 ]);
 
