@@ -1,183 +1,29 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รับโค้ดส่วนลดพิเศษ</title>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            background-color: #f7f7f7;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 400px;
-            margin: 40px auto;
-        }
-        .profile-section {
-            margin-bottom: 20px;
-        }
-        .profile-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #06C755;
-            margin-bottom: 8px;
-        }
-        .profile-name {
-            font-weight: bold;
-            color: #333;
-            font-size: 16px;
-        }
-        h2 { color: #333; font-size: 20px; margin-bottom: 10px; }
-        
-        /* ปรับแต่งข้อความคำอธิบายให้ใหญ่และเด่นชัดขึ้น */
-        .desc-text { 
-            color: #222; 
-            font-size: 16px; /* ขยายตัวหนังสือให้ใหญ่ขึ้น */
-            font-weight: bold; /* ทำตัวหนาให้สะดุดตา */
-            line-height: 1.5; 
-            margin: 15px 0;
-            background-color: #f0fdf4; /* เพิ่มพื้นหลังสีเขียวอ่อนจางๆ ให้ดูน่าสนใจ */
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px dashed #06C755;
-        }
-        
-        .btn {
-            background-color: #06C755;
-            color: white;
-            border: none;
-            padding: 18px 20px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(6, 199, 85, 0.3);
-        }
-        .btn:active { 
-            background-color: #05b04c; 
-            transform: scale(0.98); 
-        }
-
-        .coupon-box {
-            display: none;
-            margin-top: 20px;
-            background: #fff9f9;
-            border: 2px dashed #ff4d4d;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        .code-text {
-            font-size: 24px;
-            color: #ff4d4d;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .instruction {
-            font-weight: bold;
-            color: #d9534f;
-            background: #fdf7f7;
-            padding: 8px;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; background: #f8fafc; }
+    .btn { background: #06C755; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; }
+    .coupon-box { display: none; margin-top: 20px; padding: 20px; background: #dcfce7; border-radius: 8px; }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <!-- แสดงรูปโปรไฟล์และชื่อของผู้ใช้งานบนเว็บ -->
-        <div class="profile-section">
-            <img id="userImage" class="profile-img" src="" alt="Profile" style="display:none;">
-            <div id="userName" class="profile-name">กำลังโหลดข้อมูล...</div>
-        </div>
-
-        <h2>🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
-        
-        <!-- ข้อความคำอธิบายที่ปรับให้ใหญ่และเด่นชัดขึ้น -->
-        <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
-        
-        <!-- ปุ่มแชร์ขนาดใหญ่ -->
-        <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
-
-        <!-- ส่วนแสดงโค้ดส่วนลด (ซ่อนไว้ก่อนจนกว่าจะแชร์สำเร็จ) -->
-        <div id="couponSection" class="coupon-box">
-            <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
-            <p>โค้ดส่วนลดของคุณคือ:</p>
-            <div class="code-text">GOLD100</div>
-            <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง (ใช้ได้ภายใน 1 เดือน)</p>
-        </div>
-    </div>
-
-    <script>
-        let userName = "คุณลูกค้า";
-
-        async function main() {
-            try {
-                await liff.init({ liffId: "2010962484-4cvjVADF" }); // LIFF ID ของคุณ
-                if (!liff.isLoggedIn()) {
-                    liff.login();
-                } else {
-                    const profile = await liff.getProfile();
-                    userName = profile.displayName;
-                    
-                    document.getElementById("userName").innerText = userName;
-                    const userImg = document.getElementById("userImage");
-                    userImg.src = profile.pictureUrl;
-                    userImg.style.display = "inline-block";
-                }
-            } catch (error) {
-                console.error("LIFF Init failed", error);
-            }
-        }
-        main();
-
-        async function shareAndUnlock() {
-            if (!liff.isApiAvailable('shareTargetPicker')) {
-                alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
-                return;
-            }
-
-            try {
-                const result = await liff.shareTargetPicker([
-                    {
-                        type: "text",
-                        text: แกกก ฉันเพิ่งไปกดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคายมา คุ้มมาก ลองกดรับสิทธิ์ดูนะ 👉 https://lin.ee/n1vpesS
-                    }
-                ]);
-
-                if (result) {
-                    document.getElementById("shareBtn").style.display = "none";
-                    document.getElementById("desc").style.display = "none";
-                    
-                    const today = new Date();
-                    today.setMonth(today.getMonth() + 1);
-                    
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Bangkok' };
-                    const expireDateStr = today.toLocaleDateString('th-TH', options);
-                    
-                    document.getElementById("expireDate").innerText = expireDateStr;
-                    document.getElementById("couponSection").style.display = "block";
-                } else {
-                    alert("คุณยกเลิกการแชร์ จึงยังไม่ได้รับโค้ดส่วนลด");
-                }
-            } catch (error) {
-                console.error("Share failed", error);
-                alert("เกิดข้อผิดพลาดในการแชร์: " + error);
-            }
-        }
-    </script>
+  <h2>🎁 แชร์โปรโมชั่นรับส่วนลดพิเศษ</h2>
+  <p>แชร์ให้เพื่อนใน LINE ของคุณเพื่อรับโค้ดส่วนลดทันที!</p>
+  <button class="btn" id="shareBtn" onclick="shareToFriends()">แชร์ให้เพื่อนใน LINE</button>
+  <div class="coupon-box" id="couponSection">
+    <h3 style="color: #166534;">🎉 ยินดีด้วย! โค้ดส่วนลดของคุณคือ:</h3>
+    <h1 style="color: #15803d; margin: 10px 0;">DISCOUNT50</h1>
+  </div>
+  <script>
+    liff.init({ liffId: "YOUR_LIFF_ID" }).then(() => { if(!liff.isLoggedIn()) liff.login(); });
+    async function shareToFriends() {
+      if (!liff.isApiAvailable('shareTargetPicker')) { alert('กรุณาเปิดผ่านแอป LINE'); return; }
+      const res = await liff.shareTargetPicker([{ type: "text", text: "แจกโปรโมชั่นส่วนลดพิเศษ! จากห้างทองพรเจริญเยาวราชหนองคาย รีบกดรับสิทธิ์: https://lin.ee/n1vpesS" }]);
+      if (res) { document.getElementById('shareBtn').style.display = 'none'; document.getElementById('couponSection').style.display = 'block'; }
+    }
+  </script>
 </body>
 </html>
