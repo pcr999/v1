@@ -21,23 +21,6 @@
             max-width: 400px;
             margin: 40px auto;
         }
-        .profile-section {
-            margin-bottom: 20px;
-        }
-        .profile-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #06C755;
-            margin-bottom: 8px;
-            display: none;
-        }
-        .profile-name {
-            font-weight: bold;
-            color: #333;
-            font-size: 16px;
-        }
         h2 { color: #333; font-size: 20px; margin-bottom: 10px; }
         
         .desc-text { 
@@ -97,18 +80,14 @@
 <body>
 
     <div class="container">
-        <!-- ส่วนแสดงรูปโปรไฟล์และชื่อ -->
-        <div class="profile-section">
-            <img id="userImage" class="profile-img" alt="Profile">
-            <div id="userName" class="profile-name">ร้านทองพรเจริญเยาวราชหนองคาย</div>
-        </div>
-
-        <h2>🎁 รับส่วนลดพิเศษ</h2>
+        <h2>🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
         
         <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
         
+        <!-- ปุ่มแชร์ -->
         <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
 
+        <!-- ส่วนแสดงโค้ดส่วนลด -->
         <div id="couponSection" class="coupon-box">
             <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
             <p>โค้ดส่วนลดของคุณคือ:</p>
@@ -119,24 +98,12 @@
     </div>
 
     <script>
+        // เริ่มต้นระบบ LIFF ทันทีที่เปิดหน้าเว็บ
         async function main() {
             try {
-                // ใช้ LIFF ID ของคุณจากภาพ (2010962484-4cvjVADF)
-                await liff.init({ liffId: "2010962484-4cvjVADF" }); 
-                
+                await liff.init({ liffId: "2010962484-4cvjVADF" });
                 if (!liff.isLoggedIn()) {
                     liff.login();
-                } else {
-                    // ดึงโปรไฟล์แบบปลอดภัย ถ้าติดปัญหาจะไม่ทำให้เว็บค้าง
-                    try {
-                        const profile = await liff.getProfile();
-                        document.getElementById("userName").innerText = profile.displayName;
-                        const userImg = document.getElementById("userImage");
-                        userImg.src = profile.pictureUrl;
-                        userImg.style.display = "inline-block";
-                    } catch (err) {
-                        console.log("Could not load profile", err);
-                    }
                 }
             } catch (error) {
                 console.error("LIFF Init failed", error);
@@ -144,6 +111,7 @@
         }
         main();
 
+        // ฟังก์ชันกดแชร์ที่จะทำงานเมื่อผู้ใช้กดปุ่ม
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
@@ -154,7 +122,7 @@
                 const result = await liff.shareTargetPicker([
                     {
                         type: "text",
-                        text: แกกก ฉันเพิ่งไปกดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคายมา คุ้มมาก ลองกดรับสิทธิ์ดูนะ 👉 https://lin.ee/n1vpesS
+                        text: "แกกก ฉันเพิ่งไปกดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคายมา คุ้มมาก ลองกดรับสิทธิ์ดูนะ 👉 https://lin.ee/n1vpesS"
                     }
                 ]);
 
