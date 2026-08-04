@@ -3,46 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <title>รับส่วนลด 100 บาท</title>
+
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
 </head>
+
 <body>
+
 <h1>🎁 รับส่วนลด 100 บาท</h1>
+
 <p>
 แชร์โปรโมชั่นนี้ให้เพื่อน เพื่อปลดล็อกรับคูปอง
 </p>
+
 <button id="shareBtn">
 📲 แชร์ให้เพื่อนใน LINE
 </button>
+
+
 <div id="couponArea" style="display:none;">
+
 <h2>🎉 แชร์สำเร็จแล้ว</h2>
+
 <button id="couponBtn">
 รับคูปองส่วนลด 100 บาท
 </button>
+
 </div>
+
+
 <script>
+
 const LIFF_ID = "2010962484-gr4dOb9M";
+
+
 async function start(){
+
 await liff.init({
  liffId: LIFF_ID
 });
+
+
 document.getElementById("shareBtn").onclick = async function(){
+
 try {
+
 await liff.shareTargetPicker([
 {
  type:"text",
  text:"🎁 โปรโมชั่นพิเศษ รับส่วนลด 100 บาท จาก พรเจริญเยาวราช หนองคาย"
 }
 ]);
+
+
 document.getElementById("couponArea").style.display="block";
+
+
 } catch(err){
+
 alert("ไม่สามารถแชร์ได้");
+
 }
+
 };
+
+
 document.getElementById("couponBtn").onclick=function(){
+
 window.location.href="https://lin.ee/n1vpesS";
+
 };
+
+
 }
+
+
 start();
+
 </script>
+
 </body>
 </html>
