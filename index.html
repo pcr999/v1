@@ -121,13 +121,18 @@
                 const result = await liff.shareTargetPicker([
                     {
                         type: "text",
-                        text: " แนะนำ กดรับส่วนลดจาก ร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://lin.ee/n1vpesS "
+                        text: "แนะนำ กดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://lin.ee/n1vpesS"
                     }
                 ]);
 
                 if (result) {
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
+                    
+                    const expireDateStr = "10 - 16 สิงหาคม 2569";
+                    
+                    document.getElementById("expireDate").innerText = expireDateStr;
+                    document.getElementById("couponSection").style.display = "block";
                 } else {
                     alert("คุณยกเลิกการแชร์ จึงยังไม่ได้รับโค้ดส่วนลด");
                 }
