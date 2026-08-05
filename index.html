@@ -93,12 +93,11 @@
             <p>โค้ดส่วนลดของคุณคือ:</p>
             <div class="code-text">GOLD100</div>
             <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง (ใช้ได้ภายใน 1 เดือน)</p>
+            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง (ใช้ได้วันที่ 10-16 ส.ค. 69 เท่านั้น)</p>
         </div>
     </div>
 
     <script>
-        // เริ่มต้นระบบ LIFF ทันทีที่เปิดหน้าเว็บ
         async function main() {
             try {
                 await liff.init({ liffId: "2010962484-4cvjVADF" });
@@ -111,7 +110,6 @@
         }
         main();
 
-        // ฟังก์ชันกดแชร์ที่จะทำงานเมื่อผู้ใช้กดปุ่ม
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
@@ -122,7 +120,7 @@
                 const result = await liff.shareTargetPicker([
                     {
                         type: "text",
-                        text: "แนะนำ กดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://lin.ee/n1vpesS"
+                        text: "แกกก ฉันเพิ่งไปกดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคายมา คุ้มมาก ลองกดรับสิทธิ์ดูนะ 👉 https://lin.ee/n1vpesS"
                     }
                 ]);
 
@@ -130,11 +128,7 @@
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
                     
-                    const today = new Date();
-                    today.setMonth(today.getMonth() + 1);
-                    
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Bangkok' };
-                    const expireDateStr = today.toLocaleDateString('th-TH', options);
+                    const expireDateStr = "10 - 16 สิงหาคม 2569";
                     
                     document.getElementById("expireDate").innerText = expireDateStr;
                     document.getElementById("couponSection").style.display = "block";
