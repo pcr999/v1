@@ -83,11 +83,7 @@
         <h2>🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
         
         <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
-        
-        <!-- ปุ่มแชร์ -->
         <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
-
-        <!-- ส่วนแสดงโค้ดส่วนลด -->
         <div id="couponSection" class="coupon-box">
             <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
             <p>โค้ดส่วนลดของคุณคือ:</p>
@@ -97,7 +93,6 @@
     </div>
 
     <script>
-        // เริ่มต้นระบบ LIFF ทันทีที่เปิดหน้าเว็บ
         async function main() {
             try {
                 await liff.init({ liffId: "2010962484-4cvjVADF" });
@@ -109,8 +104,6 @@
             }
         }
         main();
-
-        // ฟังก์ชันกดแชร์ที่จะทำงานเมื่อผู้ใช้กดปุ่ม
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
