@@ -128,15 +128,6 @@
                 if (result) {
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
-                    
-                    const today = new Date();
-                    today.setMonth(today.getMonth() + 1);
-                    
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Bangkok' };
-                    const expireDateStr = today.toLocaleDateString('th-TH', options);
-                    
-                    document.getElementById("expireDate").innerText = expireDateStr;
-                    document.getElementById("couponSection").style.display = "block";
                 } else {
                     alert("คุณยกเลิกการแชร์ จึงยังไม่ได้รับโค้ดส่วนลด");
                 }
