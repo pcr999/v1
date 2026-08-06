@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รับโค้ดส่วนลดพิเศษ</title>
-    <meta property="og:title" content="รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย" />
-    <meta property="og:description" content="กดรับโค้ดส่วนลดพิเศษสำหรับซื้อทอง ที่ร้านทองพรเจริญเยาวราชหนองคาย" />
-    <meta property="og:image" content="https://lin.ee/n1vpesS" />
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         body {
@@ -94,13 +91,13 @@
         <div id="couponSection" class="coupon-box">
             <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
             <p>โค้ดส่วนลดของคุณคือ:</p>
-            <div class="code-text">GOLD100฿ </div>
-            <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง พรเจริญเยาวราช หนองคาย เฉพาะสาขาตลาดวัดธาตุ และ สาขาตลาดชัยพร (ใช้ได้วันที่ 10-16 ส.ค. 69 เท่านั้น) ใช้ได้กับการ ซื้อทอง เปลี่ยนทอง ทุกน้ำหนัก</p>
+            <div class="code-text"> 1016GOLD100฿ </div>
+            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง พรเจริญเยาวราช หนองคาย เฉพาะสาขาตลาดวัดธาตุ และตลาดชัยพร (ใช้ได้ภายใน 10 - 16 สิงหาคม 2569) ใช้ส่วนลดได้กับการ ซื้อทอง เปลี่ยนทอง ทุกน้ำหนัก </p>
         </div>
     </div>
 
     <script>
+        // เริ่มต้นระบบ LIFF ทันทีที่เปิดหน้าเว็บ
         async function main() {
             try {
                 await liff.init({ liffId: "2010962484-4cvjVADF" });
@@ -113,6 +110,7 @@
         }
         main();
 
+        // ฟังก์ชันกดแชร์ที่จะทำงานเมื่อผู้ใช้กดปุ่ม
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
@@ -123,7 +121,7 @@
                 const result = await liff.shareTargetPicker([
                     {
                         type: "text",
-                        text: "แนะนำ กดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://pcr999.github.io/v1/"
+                        text: "แนะนำ กดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://lin.ee/n1vpesS"
                     }
                 ]);
 
@@ -131,7 +129,7 @@
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
                     
-                    const expireDateStr = "16 สิงหาคม 2569";
+                    const expireDateStr = "10 - 16 สิงหาคม 2569";
                     
                     document.getElementById("expireDate").innerText = expireDateStr;
                     document.getElementById("couponSection").style.display = "block";
