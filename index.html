@@ -91,13 +91,13 @@
         <div id="couponSection" class="coupon-box">
             <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
             <p>โค้ดส่วนลดของคุณคือ:</p>
-            <div class="code-text"> 1016GOLD100฿ </div>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง พรเจริญเยาวราช หนองคาย เฉพาะสาขาตลาดวัดธาตุ และตลาดชัยพร (ใช้ได้ภายใน 10 - 16 สิงหาคม 2569) ใช้ส่วนลดได้กับการ ซื้อทอง เปลี่ยนทอง ทุกน้ำหนัก </p>
+            <div class="code-text">GOLD100</div>
+            <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
+            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง พรเจริญเยาวราช หนองคาย สาขาตลาดวัดธาตุ และ สาขาตลาดชัยพร (ใช้ได้วันที่ 10-16 ส.ค. 69 เท่านั้น) โค้ดส่วลดใช้ได้กับการ ซื้อทอง เปลี่ยนทอง ทุกน้ำหนัก</p>
         </div>
     </div>
 
     <script>
-        // เริ่มต้นระบบ LIFF ทันทีที่เปิดหน้าเว็บ
         async function main() {
             try {
                 await liff.init({ liffId: "2010962484-4cvjVADF" });
@@ -110,7 +110,6 @@
         }
         main();
 
-        // ฟังก์ชันกดแชร์ที่จะทำงานเมื่อผู้ใช้กดปุ่ม
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
@@ -129,7 +128,7 @@
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
                     
-                    const expireDateStr = "10 - 16 สิงหาคม 2569";
+                    const expireDateStr = "16 สิงหาคม 2569";
                     
                     document.getElementById("expireDate").innerText = expireDateStr;
                     document.getElementById("couponSection").style.display = "block";
