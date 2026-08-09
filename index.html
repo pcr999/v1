@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รับโค้ดส่วนลดพิเศษ</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -12,6 +13,7 @@
             background-color: #f7f7f7;
             padding: 20px;
             margin: 0;
+            overflow-x: hidden;
         }
         .container {
             background: white;
@@ -20,6 +22,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             max-width: 400px;
             margin: 40px auto;
+            transition: all 0.5s ease;
         }
         h2 { color: #333; font-size: 20px; margin-bottom: 10px; }
         
@@ -47,6 +50,7 @@
             margin-top: 15px;
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(6, 199, 85, 0.3);
+            transition: transform 0.1s;
         }
         .btn:active { 
             background-color: #05b04c; 
@@ -61,26 +65,36 @@
             padding: 0;
         }
         
-        /* สไตล์สำหรับรูปภาพโปสเตอร์ */
         .poster-image {
             width: 100%;
             height: auto;
             border-radius: 8px;
             display: block;
         }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
     </style>
 </head>
 <body>
+
+    <canvas id="confetti-canvas"></canvas>
 
     <div class="container">
         <h2 id="pageTitle">🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
         
         <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
         
-        <!-- ปุ่มแชร์ -->
         <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
 
-        <!-- ส่วนแสดงรูปภาพโปสเตอร์ (ซ่อนไว้ก่อนจนกว่าจะแชร์สำเร็จ) -->
         <div id="couponSection" class="coupon-box">
             <img id="posterImg" src="https://raw.githubusercontent.com/pcr999/v1/main/pcr.jpg" alt="โปสเตอร์ส่วนลด" class="poster-image">
         </div>
@@ -99,6 +113,71 @@
         }
         main();
 
+        function triggerExcitement() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.style.display = 'block';
+            
+            const myConfetti = confetti.create(canvas, {
+                resize: true,
+                useWorker: true
+            });
+
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                myConfetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                origin: { x: 0.1, y: 0.5 }
+            });
+            fire(0.2, {
+                spread: 60,
+                origin: { x: 0.2, y: 0.6 }
+            });
+            
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8,
+                origin: { x: 0.5, y: 0.6 }
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2,
+                origin: { x: 0.5, y: 0.5 }
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+                origin: { x: 0.5, y: 0.5 }
+            });
+            
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                origin: { x: 0.9, y: 0.5 }
+            });
+            fire(0.2, {
+                spread: 60,
+                origin: { x: 0.8, y: 0.6 }
+            });
+
+            setTimeout(() => {
+                canvas.style.display = 'none';
+                myConfetti.reset();
+            }, 5000);
+        }
+
         async function shareAndUnlock() {
             if (!liff.isApiAvailable('shareTargetPicker')) {
                 alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
@@ -114,25 +193,26 @@
                 ]);
 
                 if (result) {
-                    // ซ่อนปุ่ม หัวข้อ และคำอธิบายด้านบนทั้งหมด
                     document.getElementById("shareBtn").style.display = "none";
                     document.getElementById("desc").style.display = "none";
                     document.getElementById("pageTitle").style.display = "none";
                     
-                    // ปรับแต่ง container ให้กระชับและแสดงแค่รูปภาพโปสเตอร์เต็มๆ
                     const container = document.querySelector(".container");
                     container.style.padding = "10px";
                     container.style.background = "transparent";
                     container.style.boxShadow = "none";
 
-                    // แสดงรูปภาพโปสเตอร์
-                    document.getElementById("couponSection").style.display = "block";
+                    triggerExcitement();
+
+                    setTimeout(() => {
+                        document.getElementById("couponSection").style.display = "block";
+                    }, 800);
+
                 } else {
                     alert("คุณยกเลิกการแชร์ จึงยังไม่ได้รับโค้ดส่วนลด");
                 }
             } catch (error) {
                 console.error("Share failed", error);
-                alert("เกิดข้อผิดพลาดในการแชร์: " + error);
             }
         }
     </script>
