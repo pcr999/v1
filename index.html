@@ -67,89 +67,261 @@
             transform: scale(0.98);
         }
 
-        /* =========================
-           ส่วนคูปอง
-        ========================= */
+        /* ==============================
+           โปสเตอร์หลังแชร์สำเร็จ
+        ============================== */
 
         .coupon-box {
             display: none;
             margin-top: 20px;
-            animation: couponAppear 0.8s ease forwards;
         }
 
         .coupon-image {
             width: 100%;
-            max-width: 100%;
             height: auto;
             display: block;
             border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
         }
 
-        @keyframes couponAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.65) translateY(30px);
-            }
-
-            60% {
-                opacity: 1;
-                transform: scale(1.05) translateY(-5px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        /* =========================
-           หน้าจอเอฟเฟกต์ปลดล็อก
-        ========================= */
+        /* ==============================
+           หน้าจอเอฟเฟกต์รางวัล
+        ============================== */
 
         #rewardOverlay {
             position: fixed;
             inset: 0;
+
             background:
-                radial-gradient(circle at center,
-                rgba(255,255,255,0.98) 0%,
-                rgba(255,248,220,0.97) 30%,
-                rgba(255,220,120,0.95) 55%,
-                rgba(255,255,255,0.96) 100%);
+                radial-gradient(
+                    circle at center,
+                    #ffffff 0%,
+                    #fff8dc 35%,
+                    #ffe59a 65%,
+                    #ffffff 100%
+                );
+
             display: none;
+
             align-items: center;
             justify-content: center;
             flex-direction: column;
+
             z-index: 9999;
             overflow: hidden;
         }
 
-        /* แสงระเบิดตรงกลาง */
+        /* ==============================
+           กล่องของขวัญ
+        ============================== */
+
+        .gift {
+            position: relative;
+            width: 110px;
+            height: 100px;
+            margin-bottom: 20px;
+            z-index: 5;
+        }
+
+        .gift-box {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+
+            width: 90px;
+            height: 65px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #d71920,
+                    #9f0000
+                );
+
+            border-radius: 5px;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.25);
+        }
+
+        .gift-box::before {
+            content: "";
+
+            position: absolute;
+
+            left: 37px;
+            top: 0;
+
+            width: 16px;
+            height: 65px;
+
+            background: #ffd700;
+        }
+
+        .gift-lid {
+            position: absolute;
+
+            top: 20px;
+            left: 4px;
+
+            width: 102px;
+            height: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ed1c24,
+                    #a40000
+                );
+
+            border-radius: 5px;
+
+            z-index: 2;
+        }
+
+        .gift-lid::before {
+            content: "";
+
+            position: absolute;
+
+            left: 43px;
+            top: 0;
+
+            width: 16px;
+            height: 22px;
+
+            background: #ffd700;
+        }
+
+        .gift-ribbon-left,
+        .gift-ribbon-right {
+
+            position: absolute;
+
+            top: 0;
+
+            width: 40px;
+            height: 28px;
+
+            border:
+                7px solid #ffd700;
+
+            border-radius: 50%;
+
+            z-index: 3;
+        }
+
+        .gift-ribbon-left {
+            left: 22px;
+            transform: rotate(-25deg);
+        }
+
+        .gift-ribbon-right {
+            right: 22px;
+            transform: rotate(25deg);
+        }
+
+        /* ==============================
+           กล่องเด้ง
+        ============================== */
+
+        .gift.ready {
+            animation:
+                giftBounce
+                0.65s
+                ease-in-out;
+        }
+
+        @keyframes giftBounce {
+
+            0% {
+                transform: scale(0.8);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            75% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+
+        }
+
+        /* ==============================
+           กล่องแตก
+        ============================== */
+
+        .gift.explode {
+            animation:
+                giftExplode
+                0.5s
+                ease
+                forwards;
+        }
+
+        @keyframes giftExplode {
+
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            40% {
+                transform: scale(1.35);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.05);
+                opacity: 0;
+            }
+
+        }
+
+        /* ==============================
+           แสงระเบิด
+        ============================== */
 
         .reward-burst {
+
             position: absolute;
-            width: 30px;
-            height: 30px;
+
+            width: 25px;
+            height: 25px;
+
             border-radius: 50%;
+
             background: white;
+
             box-shadow:
                 0 0 20px white,
                 0 0 50px #ffd700,
                 0 0 100px #ffb300;
-            animation: burst 1.4s ease-out forwards;
+
+            animation:
+                burst
+                1.5s
+                ease-out
+                forwards;
         }
 
         @keyframes burst {
+
             0% {
                 width: 20px;
                 height: 20px;
                 opacity: 1;
             }
 
-            40% {
-                width: 180px;
-                height: 180px;
-                opacity: 0.9;
+            35% {
+                width: 150px;
+                height: 150px;
+                opacity: 0.95;
             }
 
             100% {
@@ -157,20 +329,34 @@
                 height: 700px;
                 opacity: 0;
             }
+
         }
 
-        /* วงแหวนระเบิด */
+        /* ==============================
+           วงแหวนแสง
+        ============================== */
 
         .ring {
+
             position: absolute;
+
             width: 80px;
             height: 80px;
-            border: 5px solid rgba(255,193,7,0.9);
+
+            border:
+                5px solid rgba(255,193,7,0.9);
+
             border-radius: 50%;
-            animation: ringExplosion 1.2s ease-out forwards;
+
+            animation:
+                ringExplosion
+                1.2s
+                ease-out
+                forwards;
         }
 
         @keyframes ringExplosion {
+
             0% {
                 transform: scale(0.1);
                 opacity: 1;
@@ -180,35 +366,63 @@
                 transform: scale(8);
                 opacity: 0;
             }
+
         }
 
-        /* ข้อความ */
+        /* ==============================
+           ข้อความปลดล็อก
+        ============================== */
 
         .unlock-title {
+
             position: relative;
-            z-index: 5;
+
+            z-index: 10;
+
             font-size: 32px;
+
             font-weight: bold;
+
             color: #8a5700;
+
             text-shadow:
                 0 2px 0 white,
                 0 0 15px rgba(255,215,0,0.7);
+
             opacity: 0;
-            transform: scale(0.5);
-            animation: titleAppear 0.7s ease 0.55s forwards;
+
+            animation:
+                titleAppear
+                0.7s
+                ease
+                0.55s
+                forwards;
         }
 
         .unlock-subtitle {
+
             position: relative;
-            z-index: 5;
+
+            z-index: 10;
+
             font-size: 18px;
+
             color: #5f4300;
+
             margin-top: 8px;
+
             opacity: 0;
-            animation: subtitleAppear 0.6s ease 0.9s forwards;
+
+            animation:
+                subtitleAppear
+                0.6s
+                ease
+                0.9s
+                forwards;
         }
 
         @keyframes titleAppear {
+
             0% {
                 opacity: 0;
                 transform: scale(0.5);
@@ -223,9 +437,11 @@
                 opacity: 1;
                 transform: scale(1);
             }
+
         }
 
         @keyframes subtitleAppear {
+
             from {
                 opacity: 0;
                 transform: translateY(15px);
@@ -235,24 +451,35 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+
         }
 
-        /* =========================
+        /* ==============================
            Confetti
-        ========================= */
+        ============================== */
 
         .confetti {
+
             position: absolute;
+
             top: -30px;
-            width: 9px;
-            height: 16px;
+
+            width: 8px;
+            height: 15px;
+
             opacity: 0;
-            animation: confettiFall linear forwards;
+
+            animation:
+                confettiFall
+                linear
+                forwards;
         }
 
         @keyframes confettiFall {
+
             0% {
                 opacity: 1;
+
                 transform:
                     translateY(-20px)
                     rotate(0deg);
@@ -260,161 +487,16 @@
 
             100% {
                 opacity: 0;
+
                 transform:
                     translateY(110vh)
                     rotate(720deg);
             }
+
         }
 
-        /* =========================
-           กล่องรางวัล
-        ========================= */
-
-        .gift {
-            position: relative;
-            z-index: 4;
-            width: 95px;
-            height: 80px;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: giftAppear 0.5s ease 0.05s forwards;
-        }
-
-        .gift-box {
-            position: absolute;
-            left: 10px;
-            bottom: 0;
-            width: 75px;
-            height: 55px;
-            background: linear-gradient(
-                135deg,
-                #d71920,
-                #a40000
-            );
-            border-radius: 4px;
-            box-shadow:
-                0 8px 20px rgba(0,0,0,0.25);
-        }
-
-        .gift-box::before {
-            content: "";
-            position: absolute;
-            left: 31px;
-            top: 0;
-            width: 13px;
-            height: 55px;
-            background: #ffd700;
-        }
-
-        .gift-lid {
-            position: absolute;
-            left: 4px;
-            top: 5px;
-            width: 87px;
-            height: 18px;
-            background: linear-gradient(
-                135deg,
-                #ed1c24,
-                #a40000
-            );
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .gift-lid::before {
-            content: "";
-            position: absolute;
-            left: 37px;
-            top: 0;
-            width: 13px;
-            height: 18px;
-            background: #ffd700;
-        }
-
-        .gift-ribbon-left,
-        .gift-ribbon-right {
-            position: absolute;
-            top: -17px;
-            width: 35px;
-            height: 25px;
-            border: 7px solid #ffd700;
-            border-radius: 50%;
-        }
-
-        .gift-ribbon-left {
-            left: 22px;
-            transform: rotate(-25deg);
-        }
-
-        .gift-ribbon-right {
-            right: 22px;
-            transform: rotate(25deg);
-        }
-
-        @keyframes giftAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-
-            70% {
-                opacity: 1;
-                transform: scale(1.15);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* กล่องหายตอนระเบิด */
-
-        .gift.explode {
-            animation: giftExplode 0.5s ease forwards;
-        }
-
-        @keyframes giftExplode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            45% {
-                transform: scale(1.25);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(0.1);
-                opacity: 0;
-            }
-        }
-
-        /* =========================
-           เมื่อแสดงคูปอง
-        ========================= */
+        /* ==============================
+           โปสเตอร์ปรากฏ
+        ============================== */
 
         #finalCoupon {
-            display: none;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        #finalCoupon.show {
-            display: block;
-            animation: finalCouponShow 0.9s cubic-bezier(.2,.8,.2,1) forwards;
-        }
-
-        @keyframes finalCouponShow {
-            0% {
-                opacity: 0;
-                transform: scale(0.6) translateY(40px);
-            }
-
-            65% {
-                opacity: 1;
-                transform: scale(1.05) translateY(-5px);
