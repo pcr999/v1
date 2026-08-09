@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รับโค้ดส่วนลดพิเศษ</title>
+
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: sans-serif;
             text-align: center;
             background-color: #f7f7f7;
             padding: 20px;
             margin: 0;
+            overflow-x: hidden;
         }
+
         .container {
             background: white;
             padding: 30px 20px;
@@ -21,20 +29,25 @@
             max-width: 400px;
             margin: 40px auto;
         }
-        h2 { color: #333; font-size: 20px; margin-bottom: 10px; }
-        
-        .desc-text { 
-            color: #222; 
-            font-size: 16px; 
-            font-weight: bold; 
-            line-height: 1.5; 
+
+        h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .desc-text {
+            color: #222;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.5;
             margin: 15px 0;
-            background-color: #f0fdf4; 
+            background-color: #f0fdf4;
             padding: 10px;
             border-radius: 8px;
             border: 1px dashed #06C755;
         }
-        
+
         .btn {
             background-color: #06C755;
             color: white;
@@ -48,98 +61,360 @@
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(6, 199, 85, 0.3);
         }
-        .btn:active { 
-            background-color: #05b04c; 
-            transform: scale(0.98); 
+
+        .btn:active {
+            background-color: #05b04c;
+            transform: scale(0.98);
         }
+
+        /* =========================
+           ส่วนคูปอง
+        ========================= */
 
         .coupon-box {
             display: none;
             margin-top: 20px;
-            background: #fff9f9;
-            border: 2px dashed #ff4d4d;
-            padding: 15px;
-            border-radius: 8px;
+            animation: couponAppear 0.8s ease forwards;
         }
-        .code-text {
-            font-size: 24px;
-            color: #ff4d4d;
-            font-weight: bold;
-            margin: 10px 0;
+
+        .coupon-image {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
         }
-        .instruction {
+
+        @keyframes couponAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.65) translateY(30px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* =========================
+           หน้าจอเอฟเฟกต์ปลดล็อก
+        ========================= */
+
+        #rewardOverlay {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at center,
+                rgba(255,255,255,0.98) 0%,
+                rgba(255,248,220,0.97) 30%,
+                rgba(255,220,120,0.95) 55%,
+                rgba(255,255,255,0.96) 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        /* แสงระเบิดตรงกลาง */
+
+        .reward-burst {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            box-shadow:
+                0 0 20px white,
+                0 0 50px #ffd700,
+                0 0 100px #ffb300;
+            animation: burst 1.4s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                width: 20px;
+                height: 20px;
+                opacity: 1;
+            }
+
+            40% {
+                width: 180px;
+                height: 180px;
+                opacity: 0.9;
+            }
+
+            100% {
+                width: 700px;
+                height: 700px;
+                opacity: 0;
+            }
+        }
+
+        /* วงแหวนระเบิด */
+
+        .ring {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255,193,7,0.9);
+            border-radius: 50%;
+            animation: ringExplosion 1.2s ease-out forwards;
+        }
+
+        @keyframes ringExplosion {
+            0% {
+                transform: scale(0.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(8);
+                opacity: 0;
+            }
+        }
+
+        /* ข้อความ */
+
+        .unlock-title {
+            position: relative;
+            z-index: 5;
+            font-size: 32px;
             font-weight: bold;
-            color: #d9534f;
-            background: #fdf7f7;
-            padding: 8px;
+            color: #8a5700;
+            text-shadow:
+                0 2px 0 white,
+                0 0 15px rgba(255,215,0,0.7);
+            opacity: 0;
+            transform: scale(0.5);
+            animation: titleAppear 0.7s ease 0.55s forwards;
+        }
+
+        .unlock-subtitle {
+            position: relative;
+            z-index: 5;
+            font-size: 18px;
+            color: #5f4300;
+            margin-top: 8px;
+            opacity: 0;
+            animation: subtitleAppear 0.6s ease 0.9s forwards;
+        }
+
+        @keyframes titleAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            70% {
+                opacity: 1;
+                transform: scale(1.12);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes subtitleAppear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           Confetti
+        ========================= */
+
+        .confetti {
+            position: absolute;
+            top: -30px;
+            width: 9px;
+            height: 16px;
+            opacity: 0;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform:
+                    translateY(-20px)
+                    rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translateY(110vh)
+                    rotate(720deg);
+            }
+        }
+
+        /* =========================
+           กล่องรางวัล
+        ========================= */
+
+        .gift {
+            position: relative;
+            z-index: 4;
+            width: 95px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: giftAppear 0.5s ease 0.05s forwards;
+        }
+
+        .gift-box {
+            position: absolute;
+            left: 10px;
+            bottom: 0;
+            width: 75px;
+            height: 55px;
+            background: linear-gradient(
+                135deg,
+                #d71920,
+                #a40000
+            );
             border-radius: 4px;
-            margin-top: 10px;
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.25);
         }
-    </style>
-</head>
-<body>
 
-    <div class="container">
-        <h2>🎁 รับส่วนลดร้านทองพรเจริญเยาวราชหนองคาย</h2>
-        
-        <p id="desc" class="desc-text">แชร์โปรโมชั่นให้เพื่อนอย่างน้อย 5 คนในครั้งเดียว เพื่อรับโค้ดส่วนลดของคุณ</p>
-        
-        <!-- ปุ่มแชร์ -->
-        <button id="shareBtn" class="btn" onclick="shareAndUnlock()">📤 บอกต่อเพื่อนรับส่วนลด</button>
+        .gift-box::before {
+            content: "";
+            position: absolute;
+            left: 31px;
+            top: 0;
+            width: 13px;
+            height: 55px;
+            background: #ffd700;
+        }
 
-        <!-- ส่วนแสดงโค้ดส่วนลด -->
-        <div id="couponSection" class="coupon-box">
-            <h3>🎉 ยินดีด้วย! ปลดล็อกสำเร็จ</h3>
-            <p>โค้ดส่วนลดของคุณคือ:</p>
-            <div class="code-text">GOLD100฿ </div>
-            <p>📅 <strong>ใช้ได้ถึงวันที่:</strong> <span id="expireDate"></span></p>
-            <p class="instruction">📸 กรุณาแคปหน้าจอนี้ นำไปใช้ส่วนลดที่ร้านทอง พรเจริญเยาวราช หนองคาย สาขาตลาดวัดธาตุ และ สาขาตลาดชัยพร (ใช้ได้วันที่ 10-16 ส.ค. 69 เท่านั้น) โค้ดส่วนลดใช้ได้กับการ ซื้อทอง เปลี่ยนทอง ทุกน้ำหนัก</p>
-        </div>
-    </div>
+        .gift-lid {
+            position: absolute;
+            left: 4px;
+            top: 5px;
+            width: 87px;
+            height: 18px;
+            background: linear-gradient(
+                135deg,
+                #ed1c24,
+                #a40000
+            );
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
 
-    <script>
-        async function main() {
-            try {
-                await liff.init({ liffId: "2010962484-4cvjVADF" });
-                if (!liff.isLoggedIn()) {
-                    liff.login();
-                }
-            } catch (error) {
-                console.error("LIFF Init failed", error);
+        .gift-lid::before {
+            content: "";
+            position: absolute;
+            left: 37px;
+            top: 0;
+            width: 13px;
+            height: 18px;
+            background: #ffd700;
+        }
+
+        .gift-ribbon-left,
+        .gift-ribbon-right {
+            position: absolute;
+            top: -17px;
+            width: 35px;
+            height: 25px;
+            border: 7px solid #ffd700;
+            border-radius: 50%;
+        }
+
+        .gift-ribbon-left {
+            left: 22px;
+            transform: rotate(-25deg);
+        }
+
+        .gift-ribbon-right {
+            right: 22px;
+            transform: rotate(25deg);
+        }
+
+        @keyframes giftAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            70% {
+                opacity: 1;
+                transform: scale(1.15);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
             }
         }
-        main();
 
-        async function shareAndUnlock() {
-            if (!liff.isApiAvailable('shareTargetPicker')) {
-                alert("กรุณาเปิดผ่านแอปพลิเคชัน LINE เท่านั้น");
-                return;
+        /* กล่องหายตอนระเบิด */
+
+        .gift.explode {
+            animation: giftExplode 0.5s ease forwards;
+        }
+
+        @keyframes giftExplode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
             }
 
-            try {
-                const result = await liff.shareTargetPicker([
-                    {
-                        type: "text",
-                        text: "แนะนำ กดรับส่วนลดจากร้านทองพรเจริญเยาวราชหนองคาย คุ้มมาก กดรับสิทธิ์ได้เลย 👉 https://lin.ee/n1vpesS"
-                    }
-                ]);
+            45% {
+                transform: scale(1.25);
+                opacity: 1;
+            }
 
-                if (result) {
-                    document.getElementById("shareBtn").style.display = "none";
-                    document.getElementById("desc").style.display = "none";
-                    
-                    const expireDateStr = "16 สิงหาคม 2569";
-                    
-                    document.getElementById("expireDate").innerText = expireDateStr;
-                    document.getElementById("couponSection").style.display = "block";
-                } else {
-                    alert("คุณยกเลิกการแชร์ จึงยังไม่ได้รับโค้ดส่วนลด");
-                }
-            } catch (error) {
-                console.error("Share failed", error);
-                alert("เกิดข้อผิดพลาดในการแชร์: " + error);
+            100% {
+                transform: scale(0.1);
+                opacity: 0;
             }
         }
-    </script>
-</body>
-</html>
+
+        /* =========================
+           เมื่อแสดงคูปอง
+        ========================= */
+
+        #finalCoupon {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        #finalCoupon.show {
+            display: block;
+            animation: finalCouponShow 0.9s cubic-bezier(.2,.8,.2,1) forwards;
+        }
+
+        @keyframes finalCouponShow {
+            0% {
+                opacity: 0;
+                transform: scale(0.6) translateY(40px);
+            }
+
+            65% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px);
